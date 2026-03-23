@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mistakeknot/Zaka/internal/adapter"
+	"github.com/mistakeknot/Zaka/pkg/adapter"
 )
 
 // Session manages a single tmux session running a CLI agent.

@@ -20,8 +20,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mistakeknot/Zaka/internal/adapter"
 	"github.com/mistakeknot/Zaka/internal/tmux"
+	"github.com/mistakeknot/Zaka/pkg/adapter"
 )
 
 func main() {
