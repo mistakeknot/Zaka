@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/mistakeknot/Zaka/internal/tmux"
-	"github.com/mistakeknot/Zaka/pkg/adapter"
+	"github.com/mistakeknot/Zaka/internal/adapter"
 )
 
 func main() {
