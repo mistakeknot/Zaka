@@ -3,6 +3,7 @@ package tmux
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os/exec"
 	"strings"
@@ -154,7 +155,10 @@ func ListSessions(ctx context.Context) ([]string, error) {
 	cmd := exec.CommandContext(ctx, "tmux", "list-sessions", "-F", "#{session_name}")
 	out, err := cmd.Output()
 	if err != nil {
-		if strings.Contains(err.Error(), "no server running") {
+		// Output() captures stderr into ExitError.Stderr; ExitError.Error()
+		// itself is only "exit status 1", so match the message there.
+		var exitErr *exec.ExitError
+		if errors.As(err, &exitErr) && strings.Contains(string(exitErr.Stderr), "no server running") {
 			return nil, nil
 		}
 		return nil, fmt.Errorf("tmux list-sessions: %w", err)
