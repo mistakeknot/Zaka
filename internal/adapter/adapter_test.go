@@ -14,7 +14,7 @@ func TestAdapterRegistry(t *testing.T) {
 	for _, n := range names {
 		found[n] = true
 	}
-	for _, want := range []string{"claude-code", "codex", "gemini", "amp", "aider"} {
+	for _, want := range []string{"claude-code", "codex", "gemini", "amp", "aider", "kimi"} {
 		if !found[want] {
 			t.Errorf("adapter %q not registered; have %v", want, names)
 		}
@@ -83,6 +83,38 @@ func TestCodexAdapterNoResume(t *testing.T) {
 	}
 	if a.CassConnector() != "codex" {
 		t.Errorf("connector = %q, want codex", a.CassConnector())
+	}
+}
+
+func TestKimiAdapter(t *testing.T) {
+	a := Get("kimi")
+	if a == nil {
+		t.Fatal("kimi adapter not registered")
+	}
+	if a.CassConnector() != "kimi" {
+		t.Errorf("connector = %q, want kimi", a.CassConnector())
+	}
+	if a.SupportsResume() {
+		t.Error("kimi should not support resume")
+	}
+
+	bin, args := a.SpawnCmd("/tmp", Config{Model: "k2"})
+	if bin != "kimi" {
+		t.Errorf("binary = %q, want kimi", bin)
+	}
+	if len(args) != 2 || args[0] != "--model" || args[1] != "k2" {
+		t.Errorf("args = %v, want [--model k2]", args)
+	}
+
+	// Kimi's TUI misinterprets tmux's extended-format Enter as newline, so
+	// the adapter submits via a raw carriage return byte instead.
+	ks, ok := a.(KeySubmitter)
+	if !ok {
+		t.Fatal("kimi adapter should implement KeySubmitter")
+	}
+	keys := ks.SubmitKeys()
+	if len(keys) != 2 || keys[0] != "-H" || keys[1] != "0d" {
+		t.Errorf("SubmitKeys = %v, want [-H 0d]", keys)
 	}
 }
 

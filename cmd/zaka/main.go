@@ -87,13 +87,12 @@ func cmdSteer(ctx context.Context, args []string) {
 	sessionName := args[0]
 	prompt := strings.Join(args[1:], " ")
 
-	// We need an adapter to format the prompt, but for steer we just
-	// send raw text — all adapters currently pass through.
-	sess := &tmux.Session{Name: sessionName}
-	cmd := fmt.Sprintf("%s", prompt)
+	// Resolve the adapter from the session name (zaka-<agent>-<millis>) so
+	// prompt formatting and custom submit keys apply. Agent names may
+	// themselves contain dashes, so split off the trailing millis segment.
+	sess := &tmux.Session{Name: sessionName, Adapter: adapterForSession(sessionName)}
 
-	// Direct send-keys without adapter formatting.
-	if err := sess.SendPrompt(ctx, cmd); err != nil {
+	if err := sess.SendPrompt(ctx, prompt); err != nil {
 		log.Fatalf("steer: %v", err)
 	}
 
@@ -104,6 +103,24 @@ func cmdSteer(ctx context.Context, args []string) {
 		log.Fatalf("capture: %v", err)
 	}
 	fmt.Print(out)
+}
+
+// adapterForSession infers the agent adapter from a zaka session name of the
+// form zaka-<agent>-<millis>. Returns nil if the name doesn't match a
+// registered adapter.
+func adapterForSession(sessionName string) adapter.AgentAdapter {
+	rest, ok := strings.CutPrefix(sessionName, "zaka-")
+	if !ok {
+		return nil
+	}
+	i := strings.LastIndex(rest, "-")
+	if i < 0 {
+		return nil
+	}
+	if a := adapter.Get(rest[:i]); a != nil {
+		return a
+	}
+	return nil
 }
 
 func cmdList(ctx context.Context) {

@@ -41,6 +41,15 @@ type Config struct {
 	SessionName    string // tmux session name
 }
 
+// KeySubmitter is an optional interface adapters can implement to customize
+// how the prompt is submitted. The default is a single Enter key.
+type KeySubmitter interface {
+	// SubmitKeys returns the arguments for a follow-up
+	// `tmux send-keys -t <session>` invocation after the prompt text —
+	// e.g. []string{"Enter"}, or []string{"-H", "0d"} to send raw bytes.
+	SubmitKeys() []string
+}
+
 // Registry maps adapter names to AgentAdapter instances.
 var registry = map[string]AgentAdapter{}
 
