@@ -56,6 +56,7 @@ go vet ./...
 ```bash
 zaka spawn --agent claude-code --workdir /path/to/project
 zaka spawn --agent codex --model o3
+zaka spawn --agent codex --model o3 --agent-arg=-c --agent-arg=model_reasoning_effort=high
 zaka steer <session-name> "fix the auth bug"
 zaka list
 zaka kill <session-name>

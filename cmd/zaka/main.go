@@ -20,9 +20,20 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mistakeknot/Zaka/internal/tmux"
 	"github.com/mistakeknot/Zaka/internal/adapter"
+	"github.com/mistakeknot/Zaka/internal/tmux"
 )
+
+type stringListFlag []string
+
+func (values *stringListFlag) String() string {
+	return strings.Join(*values, " ")
+}
+
+func (values *stringListFlag) Set(value string) error {
+	*values = append(*values, value)
+	return nil
+}
 
 func main() {
 	if len(os.Args) < 2 {
@@ -55,11 +66,13 @@ func main() {
 
 func cmdSpawn(ctx context.Context, args []string) {
 	fs := flag.NewFlagSet("spawn", flag.ExitOnError)
+	var agentArgs stringListFlag
 	agentName := fs.String("agent", "claude-code", "Agent adapter name")
 	workDir := fs.String("workdir", ".", "Working directory")
 	model := fs.String("model", "", "Model override")
 	permMode := fs.String("permission-mode", "", "Permission mode")
 	name := fs.String("name", "", "Session name override")
+	fs.Var(&agentArgs, "agent-arg", "Additional agent argument (repeatable)")
 	fs.Parse(args)
 
 	a := adapter.Get(*agentName)
@@ -71,6 +84,7 @@ func cmdSpawn(ctx context.Context, args []string) {
 		Model:          *model,
 		PermissionMode: *permMode,
 		SessionName:    *name,
+		ExtraArgs:      []string(agentArgs),
 	}
 
 	sess, err := tmux.Spawn(ctx, a, *workDir, cfg)

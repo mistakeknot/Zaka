@@ -18,6 +18,9 @@ Requires `tmux` at runtime.
 # Spawn an agent in a tmux session
 zaka spawn --agent claude-code --workdir .
 
+# Pass repeatable backend arguments when a routed profile needs them
+zaka spawn --agent codex --model gpt-6-astra --agent-arg=-c --agent-arg=model_reasoning_effort=high
+
 # Send a prompt to a running session
 zaka steer zaka-claude-code-1710936000 "fix the auth bug"
 
