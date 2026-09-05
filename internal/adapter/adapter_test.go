@@ -1,8 +1,23 @@
 package adapter
 
 import (
+	"reflect"
 	"testing"
 )
+
+func TestCodexInteractivePermissions(t *testing.T) {
+	for _, mode := range []string{"", "read-only", "workspace-write"} {
+		_, args := Get("codex").SpawnCmd("/tmp", Config{Model: "gpt-6-astra", PermissionMode: mode, ExtraArgs: []string{"-c", "model_reasoning_effort=xhigh"}})
+		want := []string{"--model", "gpt-6-astra"}
+		if mode != "" {
+			want = append(want, "--sandbox", mode)
+		}
+		want = append(want, "-c", "model_reasoning_effort=xhigh")
+		if !reflect.DeepEqual(args, want) {
+			t.Fatalf("mode %q: got %v, want interactive %v", mode, args, want)
+		}
+	}
+}
 
 func TestAdapterRegistry(t *testing.T) {
 	names := List()

@@ -4,6 +4,9 @@
 
 Zaka is a universal CLI agent driver. It spawns any AI coding agent in a tmux session and steers it via send-keys. The complement to [Alwe](https://github.com/mistakeknot/Alwe), which observes.
 
+Codex also supports `--transport app-server`: a detached worker owns a persistent
+stdio connection and private control socket. See [the CLI/protocol contract](docs/app-server.md).
+
 ```
 Orchestrator (Skaffen, CI, scripts)
   │
@@ -18,6 +21,7 @@ Zaka  ──tmux send-keys──▶  Claude Code / Codex / Gemini / AMP / ...
 |---------|---------|-----------|
 | `adapter` | Agent abstraction | `AgentAdapter`, `Config`, `Register`, `Get`, `List` |
 | `tmux` | Session lifecycle | `Session`, `Spawn`, `Resume`, `ListSessions` |
+| `internal/appserver` | Durable Codex protocol and worker | `Config`, `Session`, `Status`, `Spawn`, `Call`, `Inspect`, `Kill` |
 
 ## Adapters
 
@@ -69,5 +73,5 @@ Skaffen imports Zaka's adapter and tmux packages via a thin provider bridge at `
 
 ## Dependencies
 
-- **tmux** — required at runtime for session management
+- **tmux** — required for legacy transports; App Server uses **codex** instead
 - No Go library dependencies beyond stdlib

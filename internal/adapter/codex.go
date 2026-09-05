@@ -10,13 +10,12 @@ func init() {
 func (a *CodexAdapter) Name() string { return "codex" }
 
 func (a *CodexAdapter) SpawnCmd(workDir string, cfg Config) (string, []string) {
-	args := []string{
-		// bwrap sandbox fails on Ubuntu 24.04 (kernel.apparmor_restrict_unprivileged_userns=1)
-		"exec",
-		"--dangerously-bypass-approvals-and-sandbox",
-	}
+	args := []string{}
 	if cfg.Model != "" {
 		args = append(args, "--model", cfg.Model)
+	}
+	if cfg.PermissionMode != "" {
+		args = append(args, "--sandbox", cfg.PermissionMode)
 	}
 	args = append(args, cfg.ExtraArgs...)
 	return "codex", args

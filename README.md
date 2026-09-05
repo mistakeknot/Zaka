@@ -1,6 +1,6 @@
 # Zaka
 
-Universal CLI agent driver. Steers any AI coding agent via tmux sessions.
+Universal CLI agent driver. Steers AI coding agents via tmux, with durable Codex App Server sessions for structured questions, answers, and steering.
 
 Named after Cheradenine Zakalwe from Iain M. Banks' *Use of Weapons* — the Culture's instrument for steering autonomous systems from the outside. The complement to [Alwe](https://github.com/mistakeknot/Alwe), which observes.
 
@@ -10,7 +10,10 @@ Named after Cheradenine Zakalwe from Iain M. Banks' *Use of Weapons* — the Cul
 go install github.com/mistakeknot/Zaka/cmd/zaka@latest
 ```
 
-Requires `tmux` at runtime.
+Requires `tmux` for tmux transports, or `codex` for App Server transport.
+
+See [Codex App Server transport](docs/app-server.md) for the async CLI contract,
+permission policy, durable status/events, and parent integration details.
 
 ## Usage
 

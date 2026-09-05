@@ -1,0 +1,161 @@
+{
+  "verified_at": "2026-09-05T07:57:00Z",
+  "codex_version": "0.153.3",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "service_tier": "default",
+  "sandbox": "read-only",
+  "approval_policy": "on-request",
+  "events": [
+    {
+      "direction": "receive",
+      "message": {
+        "id": 0,
+        "method": "item/tool/requestUserInput",
+        "params": {
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399",
+          "turnId": "01a0708d-a317-7530-a121-17865768693b",
+          "itemId": "call_WG6P5mhiEUusVCSEwJ5inLvA",
+          "questions": [
+            {
+              "id": "color",
+              "header": "Color",
+              "question": "Which color token should I return?",
+              "isOther": true,
+              "isSecret": false,
+              "options": [
+                {
+                  "label": "BLUE",
+                  "description": "Return ROUNDTRIP_BLUE."
+                },
+                {
+                  "label": "GREEN",
+                  "description": "Return ROUNDTRIP_GREEN."
+                }
+              ]
+            }
+          ],
+          "isBlocking": false,
+          "autoResolutionMs": null
+        }
+      },
+      "time": "2026-09-05T07:52:10.600298Z"
+    },
+    {
+      "direction": "receive",
+      "message": {
+        "method": "serverRequest/resolved",
+        "params": {
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399",
+          "requestId": 0
+        }
+      },
+      "time": "2026-09-05T07:53:44.564727Z"
+    },
+    {
+      "direction": "receive",
+      "message": {
+        "method": "item/completed",
+        "params": {
+          "item": {
+            "type": "agentMessage",
+            "id": "msg_0e163c3a801b3997016a9bca8ca15087d091d4a70d09feb35c",
+            "text": "ROUNDTRIP_BLUE",
+            "phase": "final_answer",
+            "memoryCitation": null,
+            "delivery": null,
+            "questions": null
+          },
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399",
+          "turnId": "01a0708d-a317-7530-a121-17865768693b",
+          "completedAtMs": 1788594828850
+        }
+      },
+      "time": "2026-09-05T07:53:48.8511Z"
+    },
+    {
+      "direction": "receive",
+      "message": {
+        "id": 1,
+        "method": "item/tool/requestUserInput",
+        "params": {
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399",
+          "turnId": "01a07090-80b4-7d02-b941-c9d96e11349d",
+          "itemId": "call_DZY93c5YmmyEbWz38XkFu8A2",
+          "questions": [
+            {
+              "id": "confirm",
+              "header": "Confirm",
+              "question": "Which token should I return?",
+              "isOther": true,
+              "isSecret": false,
+              "options": [
+                {
+                  "label": "YES",
+                  "description": "Return ORIGINAL_YES."
+                },
+                {
+                  "label": "NO",
+                  "description": "Return ORIGINAL_NO."
+                }
+              ]
+            }
+          ],
+          "isBlocking": false,
+          "autoResolutionMs": null
+        }
+      },
+      "time": "2026-09-05T07:55:17.960341Z"
+    },
+    {
+      "direction": "send",
+      "message": {
+        "id": "zaka-5",
+        "method": "turn/steer",
+        "params": {
+          "expectedTurnId": "01a07090-80b4-7d02-b941-c9d96e11349d",
+          "input": [
+            {
+              "text": "Mid-turn steering: change the final prefix from ORIGINAL_ to STEERED_. Still wait for the pending structured confirm answer and preserve the read-only/no-tools constraints.",
+              "type": "text"
+            }
+          ],
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399"
+        }
+      },
+      "time": "2026-09-05T07:56:21.187983Z"
+    },
+    {
+      "direction": "receive",
+      "message": {
+        "method": "serverRequest/resolved",
+        "params": {
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399",
+          "requestId": 1
+        }
+      },
+      "time": "2026-09-05T07:56:21.230143Z"
+    },
+    {
+      "direction": "receive",
+      "message": {
+        "method": "item/completed",
+        "params": {
+          "item": {
+            "type": "agentMessage",
+            "id": "msg_0e163c3a801b3997016a9bcb26eee887d09f43be5f7dac60b8",
+            "text": "STEERED_YES",
+            "phase": "final_answer",
+            "memoryCitation": null,
+            "delivery": null,
+            "questions": null
+          },
+          "threadId": "01a0708d-41ce-7080-959d-a911931ea399",
+          "turnId": "01a07090-80b4-7d02-b941-c9d96e11349d",
+          "completedAtMs": 1788594983202
+        }
+      },
+      "time": "2026-09-05T07:56:23.204124Z"
+    }
+  ]
+}
